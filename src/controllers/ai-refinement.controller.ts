@@ -1,4 +1,3 @@
-import { GoogleGenAI } from "@google/genai";
 import type { NextFunction, Request, Response } from "express";
 import * as AiRefinementService from "../services/ai-refinement.service.js";
 import * as TokenCreditService from "../services/token-credit.service.js";
@@ -34,7 +33,13 @@ export async function refineResponsibility(
       RESPONSIBILITY_REFINEMENT_COST,
     );
 
-    return res.status(200).send({ message: refinedText, success: true });
+    return res
+      .status(200)
+      .send({
+        data: refinedText,
+        success: true,
+        message: "Responsibility refined successfully",
+      });
   } catch (error) {
     next(rethrowAppError(error, "refineResponsibility"));
   }
@@ -42,7 +47,7 @@ export async function refineResponsibility(
 
 export async function buildOutWorkHistory(
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction,
 ) {
   try {
