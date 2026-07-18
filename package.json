@@ -1,0 +1,40 @@
+{
+  "name": "reswork-be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.5.2",
+      "onFail": "download"
+    }
+  },
+  "type": "module",
+  "devDependencies": {
+    "@effect/language-service": "^0.87.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.1.1",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@google/genai": "^2.11.0",
+    "convex": "^1.42.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "effect": "^3.22.0",
+    "express": "^5.2.1",
+    "jose": "^6.2.3",
+    "zod": "^4.4.3"
+  }
+}
