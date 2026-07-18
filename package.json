@@ -2,15 +2,22 @@
   "name": "reswork-be",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "start": "tsx src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "start": "node dist/index.js",
+    "test": "pnpm typecheck"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "packageManager": "pnpm@11.5.2",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=11.5.2"
+  },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
