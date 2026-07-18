@@ -15,7 +15,7 @@
   "license": "ISC",
   "packageManager": "pnpm@11.5.2",
   "engines": {
-    "node": ">=22.0.0",
+    "node": "22.x",
     "pnpm": ">=11.5.2"
   },
   "devEngines": {
