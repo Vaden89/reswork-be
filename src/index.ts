@@ -23,6 +23,7 @@ const configuredOrigins = (process.env.CORS_ORIGIN ?? "")
 
 const allowedOrigins = new Set([
   ...configuredOrigins,
+  "https://reswork-test.vercel.app",
   ...(process.env.NODE_ENV === "production" ? [] : ["http://localhost:3000"]),
 ]);
 

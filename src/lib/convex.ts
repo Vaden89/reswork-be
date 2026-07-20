@@ -1,16 +1,18 @@
 import { ConvexHttpClient } from "convex/browser";
 import { makeFunctionReference } from "convex/server";
 
-const convexUrl = process.env.CONVEX_URL;
+function getConvexUrl(): string {
+  const convexUrl = process.env.CONVEX_URL;
 
-if (!convexUrl) {
-  throw new Error("CONVEX_URL environment variable is not set");
+  if (!convexUrl) {
+    throw new Error("CONVEX_URL environment variable is not set");
+  }
+
+  return convexUrl;
 }
 
-const CONVEX_URL: string = convexUrl;
-
 export function convexClient(token: string): ConvexHttpClient {
-  const client = new ConvexHttpClient(CONVEX_URL);
+  const client = new ConvexHttpClient(getConvexUrl());
   client.setAuth(token);
   return client;
 }

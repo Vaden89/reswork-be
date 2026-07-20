@@ -3,17 +3,27 @@ import { createRemoteJWKSet, jwtVerify } from "jose";
 import type { NextFunction, Request, Response } from "express";
 import { createError } from "../utils/app-error.js";
 
-const siteUrl = process.env.CONVEX_SITE_URL;
+let jwks: ReturnType<typeof createRemoteJWKSet> | undefined;
+let jwksSiteUrl: string | undefined;
 
-if (!siteUrl) {
-  throw new Error("CONVEX_SITE_URL environment variable is not set");
+function getConvexSiteUrl(): string {
+  const siteUrl = process.env.CONVEX_SITE_URL;
+
+  if (!siteUrl) {
+    throw createError("CONVEX_SITE_URL environment variable is not set", 500);
+  }
+
+  return siteUrl;
 }
 
-const CONVEX_SITE_URL: string = siteUrl;
+function getJwks(siteUrl: string): ReturnType<typeof createRemoteJWKSet> {
+  if (!jwks || jwksSiteUrl !== siteUrl) {
+    jwks = createRemoteJWKSet(new URL(`${siteUrl}/api/auth/convex/jwks`));
+    jwksSiteUrl = siteUrl;
+  }
 
-const jwks = createRemoteJWKSet(
-  new URL(`${CONVEX_SITE_URL}/api/auth/convex/jwks`),
-);
+  return jwks;
+}
 
 export async function requireAuth(
   req: Request,
@@ -35,8 +45,10 @@ export async function requireAuth(
   }
 
   try {
-    const { payload } = await jwtVerify(token, jwks, {
-      issuer: CONVEX_SITE_URL,
+    const siteUrl = getConvexSiteUrl();
+
+    const { payload } = await jwtVerify(token, getJwks(siteUrl), {
+      issuer: siteUrl,
       audience: "convex",
     });
 
