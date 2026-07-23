@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { generateText } from "ai";
 
 export async function refineResponsibility({
   position,
@@ -9,27 +9,29 @@ export async function refineResponsibility({
   company: string;
   responsibility: string;
 }): Promise<string> {
-  const ai = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY ?? "",
+  const { text } = await generateText({
+    model: "openai/gpt-5.4-mini",
+    instructions: `YOU ARE A SENIOR LEVEL TECHNICAL RECRUITER AND HIRING MANAGER WITH EXTENSIVE EXPERIENCE REVIEWING RESUMES FOR ${position} ROLES. YOUR TASK IS TO REWRITE A SINGLE RESUME BULLET POINT SO IT IS MORE COMPELLING, CONCISE AND ACHIEVEMENT-ORIENTED WHILE REMAINING COMPLETELY TRUTHFUL
+
+    ## GUIDELINES
+
+    - REWRITE THE USER'S INPUT INTO 1 RESUME BULLET SENTENCE
+    - EMPHASIZE BUSINESS OR TECHNICAL IMPACT RATHER THAN SIMPLY LISTING THE RESPONSIBILITY
+    - HIGHLIGHT OWNERSHIP, COMPLEXITY, SCALE, PERFORMANCE, RELIABILITY, DEVELOPER EXPERIENCE, OR CUSTOMER VALUE WHENEVER POSSIBLE
+    - IF THE USERS PROVIDES MEASURABLE RESULTS, PRESERVE AND EMPHASIZE THEM
+    - DO NOT USE FIRST-PERSON LANGAUGE
+    - RETURN ONLY THE THE REWRITTEN RESUME BULLET
+
+    ## EXAMPLES
+
+    ### INPUT
+    I worked as a SOFTWARE ENGINEER at RISEVEST and one of my responsbilities was to Build out telemerty to track user activity with posthog
+
+    ### OUTPUT
+    Integrated PostHog telemetry to monitor user behavior, leveraging real-time analytics to identify friction points and guide the development of high-impact product features.
+    `,
+    prompt: `I worked as ${position} at ${company} and one of my responsbilities was to ${responsibility}`,
   });
 
-  const interaction = await ai.interactions.create({
-    model: "gemini-3.5-flash",
-    system_instruction: `YOU ARE A SENIOR LEVEL RECRUITER / HIRING MANAGER THAT HELPS PEOPLE REFINE THEIR RESUMES TO MAKE THEM STANDOUT MORE TO COMPANIES THAT WOULD BE LOOKING TO HIRE, ANY OUTPUT YOU PROVIDE MUST EXPLAIN MY IMPACT IN ONE OR TWO SENTENCES
-        FOR EXAMPLE:
-        My prompt: I worked as a SOFTWARE ENGINEER at RISEVEST and one of my responsbilities was to <Build out telemerty to track user activity with posthog> I want you to refine this text to make it more appealing to companies that would be looking to hire, by bringing out my impact and making this responsibility stand out, say mertics etc
-
-        Your Response: Integrated PostHog telemetry to monitor user behavior, leveraging real-time analytics to identify friction points and guide the development of high-impact product features.
-
-        ANOTHER EXAMPLE:
-        My prompt: I worked as a SOFTWARE ENGINEER at RISEVEST and one of my responsbilities was to <Improved Website performance by implementing lazy loading> I want you to refine this text to make it more appealing to companies that would be looking to hire, by bringing out my impact and making this responsibility stand out, say mertics etc
-
-        Your Response: Slashed Time to Interactivity (TTI) by 62% (3.5s to 1.3s) through implementation of code splitting, dynamic imports, and aggressive image optimization strategies.
-      `,
-    input: `I worked as ${position} at ${company} and one of my responsbilities was to ${responsibility} I want you to refine this text to make it more appealing to companies that would be looking to hire, by bringing out my impact and making this responsibility stand out, say mertics etc`,
-  });
-
-  if (!interaction.output_text) throw new Error("No output text");
-
-  return interaction.output_text;
+  return text;
 }

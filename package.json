@@ -35,11 +35,10 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@google/genai": "^2.11.0",
+    "ai": "^7.0.34",
     "convex": "^1.42.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "effect": "^3.22.0",
     "express": "^5.2.1",
     "jose": "^6.2.3",
     "zod": "^4.4.3"
