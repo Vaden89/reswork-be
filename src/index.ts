@@ -35,6 +35,12 @@ app.get("/health", (req, res: Response) => {
   });
 });
 
+app.get("/", (_req, res: Response) => {
+  res.status(200).json({
+    message: "Welcome to reswork's backend",
+  });
+});
+
 app.use("/api", ApiRouter);
 
 app.use((_req, _res, next) => {
