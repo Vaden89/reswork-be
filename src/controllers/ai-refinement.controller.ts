@@ -1,7 +1,7 @@
+import { rethrowAppError } from "../utils/app-error.js";
 import type { NextFunction, Request, Response } from "express";
 import * as AiRefinementService from "../services/ai-refinement.service.js";
 import * as TokenCreditService from "../services/token-credit.service.js";
-import { rethrowAppError } from "../utils/app-error.js";
 
 const RESPONSIBILITY_REFINEMENT_COST = 1;
 
@@ -33,13 +33,11 @@ export async function refineResponsibility(
       RESPONSIBILITY_REFINEMENT_COST,
     );
 
-    return res
-      .status(200)
-      .send({
-        data: refinedText,
-        success: true,
-        message: "Responsibility refined successfully",
-      });
+    return res.status(200).send({
+      data: refinedText,
+      success: true,
+      message: "Responsibility refined successfully",
+    });
   } catch (error) {
     next(rethrowAppError(error, "refineResponsibility"));
   }
