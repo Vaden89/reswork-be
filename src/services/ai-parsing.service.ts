@@ -3,7 +3,7 @@ import { resumeDateSchema } from "../lib/schema/ai-output/resume-data.schema.js"
 
 export async function parseResumeTextService(text: string) {
   const { output } = await generateText({
-    model: "openai/gpt-5.4-mini",
+    model: "openai/gpt-5.2",
     instructions: `YOU ARE A RESUME PARSER AND MUST EXTRACT ALL THE RELEVANT INFORMATION FROM THE RESUME TEXT PROVIDED.
 
       ## GUIDELINES
