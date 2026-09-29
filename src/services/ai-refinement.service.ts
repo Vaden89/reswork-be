@@ -10,7 +10,7 @@ export async function refineResponsibility({
   responsibility: string;
 }): Promise<string> {
   const { text } = await generateText({
-    model: "openai/gpt-5.4-mini",
+    model: "openai/gpt-5.2",
     instructions: `YOU ARE A SENIOR LEVEL TECHNICAL RECRUITER AND HIRING MANAGER WITH EXTENSIVE EXPERIENCE REVIEWING RESUMES FOR ${position} ROLES. YOUR TASK IS TO REWRITE A SINGLE RESUME BULLET POINT SO IT IS MORE COMPELLING, CONCISE AND ACHIEVEMENT-ORIENTED WHILE REMAINING COMPLETELY TRUTHFUL
 
     ## GUIDELINES
